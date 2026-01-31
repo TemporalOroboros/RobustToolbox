@@ -31,7 +31,7 @@ public sealed class ComponentRegistration
     /// <summary>
     /// If this is true, the component will be ignored when being deserialized to a prototype.
     /// </summary>
-    /// <seealso cref="UnprototypedComponentAttribute"/>
+    /// <seealso cref="DoNotPrototypeComponentAttribute"/>
     public bool DoNotPrototype { get; }
 
     /// <summary>
