@@ -29,3 +29,10 @@ public sealed class ComponentProtoNameAttribute(string prototypeName) : Attribut
 /// <seealso cref="Component"/>
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public sealed class UnsavedComponentAttribute : Attribute;
+
+/// <summary>
+///     Marks a component as not being compatible with entity prototypes.
+/// </summary>
+/// <seealso cref="Component"/>
+[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+public sealed class DoNotPrototypeComponentAttribute : Attribute;

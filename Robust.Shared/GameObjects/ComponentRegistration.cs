@@ -29,6 +29,12 @@ public sealed class ComponentRegistration
     public bool Unsaved { get; }
 
     /// <summary>
+    /// If this is true, the component will be ignored when being deserialized to a prototype.
+    /// </summary>
+    /// <seealso cref="UnprototypedComponentAttribute"/>
+    public bool DoNotPrototype { get; }
+
+    /// <summary>
     /// ID used to reference the component type across the network.
     /// If null, no network synchronization will be available for this component.
     /// </summary>
@@ -49,12 +55,13 @@ public sealed class ComponentRegistration
 
     // Internal for sandboxing.
     // Avoid content passing an instance of this to ComponentFactory to get any type they want instantiated.
-    internal ComponentRegistration(string name, Type type, CompIdx idx, bool unsaved = false)
+    internal ComponentRegistration(string name, Type type, CompIdx idx, bool unsaved = false, bool doNotPrototype = false)
     {
         Name = name;
         Type = type;
         Idx = idx;
         Unsaved = unsaved;
+        DoNotPrototype = doNotPrototype;
     }
 
     public override string ToString()

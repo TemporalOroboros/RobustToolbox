@@ -64,8 +64,17 @@ namespace Robust.Shared.Serialization.TypeSerializers.Implementations
                 var copy = componentMapping.Copy()!;
                 copy.Remove("type");
 
-                var type = factory.GetRegistration(compType).Type;
-                var read = (IComponent)serializationManager.Read(type, copy, hookCtx, context)!;
+                var reg = factory.GetRegistration(compType);
+                if (reg.DoNotPrototype && context is not { WritingReadingPrototypes: false })
+                {
+                    dependencies
+                        .Resolve<ILogManager>()
+                        .GetSawmill(SerializationManager.LogCategory)
+                        .Error($"Unprototypeable component of type '{compType}' defined in prototype!");
+                    continue;
+                }
+
+                var read = (IComponent)serializationManager.Read(reg.Type, copy, hookCtx, context)!;
 
                 components[compType] = new ComponentRegistryEntry(read, copy);
             }
@@ -128,12 +137,18 @@ namespace Robust.Shared.Serialization.TypeSerializers.Implementations
                     continue;
                 }
 
+                // Is this component allowed on prototypes?
+                var reg = factory.GetRegistration(compType);
+                if (reg.DoNotPrototype && context is not { WritingReadingPrototypes: false })
+                {
+                    list.Add(new ErrorNode(componentMapping, $"Unprototypable component of type {compType} in prototype."));
+                    continue;
+                }
+
                 var copy = componentMapping.Copy()!;
                 copy.Remove("type");
 
-                var type = factory.GetRegistration(compType).Type;
-
-                list.Add(serializationManager.ValidateNode(type, copy, context));
+                list.Add(serializationManager.ValidateNode(reg.Type, copy, context));
             }
 
             var referenceTypes = new List<CompIdx>();
