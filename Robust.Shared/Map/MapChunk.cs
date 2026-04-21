@@ -271,14 +271,4 @@ namespace Robust.Shared.Map
             DebugTools.Assert(totalFilled == FilledTiles);
         }
     }
-
-    /// <summary>
-    /// Event delegate for <see cref="MapChunk.TileModified"/>.
-    /// </summary>
-    /// <param name="mapChunk">Chunk that the tile was on.</param>
-    /// <param name="tileIndices">hunk Indices of the tile that was modified.</param>
-    /// <param name="newTile">New version of the tile.</param>
-    /// <param name="oldTile">Old version of the tile.</param>
-    /// <param name="chunkShapeChanged">If changing this tile changed the shape of the chunk.</param>
-    internal delegate void TileModifiedDelegate(EntityUid uid, MapGridComponent grid, MapChunk mapChunk, Vector2i tileIndices, Tile newTile, Tile oldTile, bool chunkShapeChanged);
 }
